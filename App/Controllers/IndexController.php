@@ -14,6 +14,7 @@ class IndexController extends Action {
 	}
 
 	public function subscribe() {
+		$this->view->erroCadastro = false;
 		$this->render('subscribe');
 	}
 
@@ -23,10 +24,12 @@ class IndexController extends Action {
 		$usuario->__set('email', $_POST['email']);
 		$usuario->__set('senha', $_POST['senha']);
 
-		if($usuario->validaCadastro()) {
-			$usuario->salvar();
-		} else {
-			
+		if($usuario->validaCadastro() && count($usuario->getUserPerEmail()) == 0) {
+				$usuario->salvar();
+				$this->render('cadastro');
+			} else {
+				$this->view->erroCadastro = true;
+				$this->render('subscribe');
 		}
 	}
 }

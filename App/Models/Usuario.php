@@ -38,4 +38,13 @@
 
             return $valido;
         }
+
+        public function getUserPerEmail() {
+            $query = "SELECT nome, email FROM usuarios WHERE email = :email";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':email', $this->__get('email'));
+            $stmt->execute();
+
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
     }

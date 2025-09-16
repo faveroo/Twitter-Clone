@@ -35,6 +35,10 @@
                 </small>
               </div>
               <button type="submit" class="btn btn-primary btn-block">Inscrever-se</button>
+
+              <?php if($this->view->erroCadastro): ?>
+                  <small class="form-text text-danger">Erro ao tentar realizar o cadastro, verifique os campos preenchidos</small>
+              <?php endif; ?>
             </form>
 
           </div>
