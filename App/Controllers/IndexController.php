@@ -23,7 +23,11 @@ class IndexController extends Action {
 		$usuario->__set('email', $_POST['email']);
 		$usuario->__set('senha', $_POST['senha']);
 
-		$usuario->salvar();
+		if($usuario->validaCadastro()) {
+			$usuario->salvar();
+		} else {
+			
+		}
 	}
 }
 

@@ -19,7 +19,7 @@
         }
 
         public function salvar() {
-            $query = "INSERT INTO (nome, email, senha) VALUES (:nome, :email :senha)";
+            $query = "INSERT INTO usuarios(nome, email, senha) VALUES (:nome, :email, :senha)";
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':nome', $this->__get('nome'));
             $stmt->bindValue(':email', $this->__get('email'));
@@ -27,5 +27,15 @@
             $stmt->execute();
 
             return $this;
+        }
+
+        public function validaCadastro() {
+            $valido = true;
+
+            if(strlen($this->__get('nome') < 3) || strlen($this->__get('email') < 3) || strlen($this->__get('senha') < 3)) {
+                $valido = false;
+            }
+
+            return $valido;
         }
     }
