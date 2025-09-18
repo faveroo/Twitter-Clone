@@ -15,10 +15,19 @@ class IndexController extends Action {
 
 	public function subscribe() {
 		$this->view->erroCadastro = false;
+
+		$this->view->usuario = array(
+					'nome' => '',
+					'email' => '',
+					'senha' => ''
+				);
+		
 		$this->render('subscribe');
 	}
 
 	public function registrar() {
+		
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$usuario = Container::getModel('Usuario');
 		$usuario->__set('nome', $_POST['nome']);
 		$usuario->__set('email', $_POST['email']);
@@ -28,11 +37,20 @@ class IndexController extends Action {
 				$usuario->salvar();
 				$this->render('cadastro');
 			} else {
+
+				$this->view->usuario = array(
+					'nome' => $_POST['nome'],
+					'email' => $_POST['email'],
+					'senha' => $_POST['senha']
+				);
+
 				$this->view->erroCadastro = true;
 				$this->render('subscribe');
+			}
+		} else {
+			$this->redirect('/');
 		}
 	}
 }
-
 
 ?>

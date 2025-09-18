@@ -29,6 +29,11 @@ abstract class Action {
 
 		require_once "../App/Views/".$classAtual."/".$this->view->page.".phtml";
 	}
+
+	protected function redirect($url) {
+		header("Location: ".$url);
+		exit;
+	}
 }
 
 ?>
