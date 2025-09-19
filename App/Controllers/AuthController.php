@@ -20,6 +20,9 @@ class AuthController extends Action {
                 }
                 $_SESSION['id'] = $usuario->__get('id');
                 $_SESSION['nome'] = $usuario->__get('nome');
+
+                $this->redirect('/timeline');
+
             } else {
                 $this->redirect("/?login=erro");
             }

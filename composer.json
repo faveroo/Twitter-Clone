@@ -1,5 +1,5 @@
 {
-	"name": "miniframework",
+	"name": "faveroo/twitter-clone",
 	"require": {
 		"php": ">= 7.0"
 	},
