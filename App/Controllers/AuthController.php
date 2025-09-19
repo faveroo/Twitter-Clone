@@ -12,8 +12,19 @@ class AuthController extends Action {
             $usuario->__set('email', $_POST['email']);
             $usuario->__set('senha', $_POST['senha']);
 
-            $return = $usuario->autenticar();
-            echo "Olá!, {$return['nome']}!";
+            $usuario->autenticar();
+
+            if(!empty($usuario->__get('id')) && !empty($usuario->__get('nome'))) {
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $_SESSION['id'] = $usuario->__get('id');
+                $_SESSION['nome'] = $usuario->__get('nome');
+            } else {
+                $this->redirect("/?login=erro");
+            }
+        } else {
+            $this->redirect('/');
         }
     } 
 }

@@ -36,8 +36,12 @@
               </div>
               <button type="submit" class="btn btn-primary btn-block">Inscrever-se</button>
 
-              <?php if($this->view->erroCadastro): ?>
-                  <small class="form-text text-danger">Erro ao tentar realizar o cadastro, verifique os campos preenchidos</small>
+              <?php if($this->view->erroCadastro == 1): ?>
+                  <small class="form-text text-danger">Erro ao tentar realizar o cadastro, verifique os campos preenchidos e tente novamente</small>
+              <?php endif; ?>
+              
+              <?php if($this->view->erroCadastro == 2): ?>
+                  <small class="form-text text-danger">Erro: E-mail já cadastrado</small>
               <?php endif; ?>
             </form>
 
