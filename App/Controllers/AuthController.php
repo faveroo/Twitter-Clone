@@ -29,5 +29,11 @@ class AuthController extends Action {
         } else {
             $this->redirect('/');
         }
-    } 
+    }
+    
+    public function sair() {
+        session_start();
+        session_destroy();
+        $this->redirect('/');
+    }
 }

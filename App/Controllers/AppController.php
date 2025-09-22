@@ -7,6 +7,12 @@ use MF\Model\Container;
 
 class AppController extends Action {
     public function timeline() {
-        $this->render('index');
+        session_start();
+
+        if(!isset($_SESSION['id']) && !isset($_SESSION['nome'])) {
+            $this->redirect('/?login=erro');
+        }
+
+        $this->render('timeline');
     }
 }

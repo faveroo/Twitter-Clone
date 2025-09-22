@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Controllers\AuthController;
 use MF\Init\Bootstrap;
 
 class Route extends Bootstrap {
@@ -36,6 +37,12 @@ class Route extends Bootstrap {
 			'route' => '/timeline',
 			'controller' => 'AppController',
 			'action' => 'timeline'
+		);
+
+		$routes['sair'] = array(
+			'route' => '/sair',
+			'controller' => 'AuthController',
+			'action' => 'sair'
 		);
 
 		$this->setRoutes($routes);
