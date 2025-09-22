@@ -27,4 +27,20 @@
 
             return $this;
         }
+
+        public function getAll() {
+            $query = "SELECT 
+                t.id, 
+                t.tweet, 
+                DATE_FORMAT(t.data, '%d/%m/%Y %H:%i') as data,
+                u.nome
+                FROM tweets t
+                INNER JOIN usuarios u
+                ON t.id_usuario=u.id
+                WHERE id_usuario = :id_usuario";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':id_usuario', $this->__get('id_usuario'));
+            $stmt->execute();
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
     }

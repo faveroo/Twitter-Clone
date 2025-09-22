@@ -8,12 +8,18 @@ use MF\Model\Container;
 class AppController extends Action {
     public function timeline() {
         $this->view->login = isset($_GET['tweet']) ? $_GET['tweet'] : '';
+
         session_start();
 
         if(!isset($_SESSION['id']) && !isset($_SESSION['nome'])) {
             $this->redirect('/?login=erro');
         }
 
+        $tweet = Container::getModel('Tweet');
+        $tweet->__set('id_usuario', $_SESSION['id']);
+
+        $tweets = $tweet->getAll();
+        $this->view->tweets = $tweets;
         $this->render('timeline');
     }
 
