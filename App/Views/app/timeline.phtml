@@ -58,13 +58,18 @@
 		<div class="col-md-6">
 			<div class="row mb-2">
 				<div class="col tweetBox">
-					<form>
-						<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+					<form method="POST" action="/tweet">
+						<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="tweet"></textarea>
 						
 						<div class="col mt-2 d-flex justify-content-end">
 							<button type="submit" class="btn btn-primary">Tweet</button>
 						</div>
-
+						
+						<? if($this->view->login == 'erro'): ?>	
+						<div class="row">
+							<div class="col"><span class="text text-danger">*Tweet naõ deve ser vazio!</span></div>
+						</div>
+						<? endif; ?>
 					</form>
 				</div>
 			</div>
