@@ -56,8 +56,12 @@ class AppController extends Action {
     }
 
     public function validateAuth() {
-        session_start();
-        if(!isset($_SESSION['id']) && !isset($_SESSION['nome'])) {
+        
+        if(session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if(!isset($_SESSION['id']) || !isset($_SESSION['nome'])) {
             return false;
         }
 
