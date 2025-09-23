@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Controllers\AuthController;
 use MF\Init\Bootstrap;
 
 class Route extends Bootstrap {
