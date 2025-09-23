@@ -81,9 +81,10 @@
 					<p><?= $tweet['tweet'] ?></p>
 
 					<br />
-					<form>
+					<form method="POST" action="/remover">
 						<div class="col d-flex justify-content-end">
 							<button type="submit" class="btn btn-danger"><small>Remover</small></button>
+							<input type="hidden" name="id_tweet" value="<?= $tweet['id'] ?>">
 						</div>
 					</form>
 				</div>

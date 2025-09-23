@@ -28,6 +28,15 @@
             return $this;
         }
 
+        public function remover() {
+            $query = "DELETE FROM tweets WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':id', $this->__get('id'));
+            $stmt->execute();
+
+            return $this;
+        }
+
         public function getAll() {
             $query = "SELECT 
                 t.id, 
@@ -37,7 +46,8 @@
                 FROM tweets t
                 INNER JOIN usuarios u
                 ON t.id_usuario=u.id
-                WHERE id_usuario = :id_usuario";
+                WHERE id_usuario = :id_usuario
+                ORDER BY t.data DESC";
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':id_usuario', $this->__get('id_usuario'));
             $stmt->execute();
