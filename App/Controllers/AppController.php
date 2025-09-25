@@ -9,9 +9,7 @@ class AppController extends Action {
     public function timeline() {
         $this->view->login = isset($_GET['tweet']) ? $_GET['tweet'] : '';
 
-        if(!$this->validateAuth()) {
-            $this->redirect('/?login=erro');
-        }
+        $this->validateAuth();
 
         $tweet = Container::getModel('Tweet');
         $tweet->__set('id_usuario', $_SESSION['id']);
@@ -22,9 +20,7 @@ class AppController extends Action {
     }
 
     public function tweet() {
-        if(!$this->validateAuth()) {
-            $this->redirect('/');
-        }
+        $this->validateAuth();
 
         $tweet = Container::getModel('Tweet');
         $tweet->__set('tweet', $_POST['tweet']);
@@ -33,17 +29,17 @@ class AppController extends Action {
         if(!empty($_POST['tweet'])) {
             $tweet->salvar();
             $this->redirect('/timeline');
-        } else {
+        } elseif($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->redirect('/timeline?tweet=erro');
+        } else {
+            $this->redirect('/timeline');
         }
 
     }
 
     public function remover() {
 
-        if(!$this->validateAuth()) {
-            $this->redirect('/');
-        }
+        $this->validateAuth();
 
         if(!isset($_POST['id_tweet'])) {
             $this->redirect('/timeline');
@@ -62,9 +58,7 @@ class AppController extends Action {
         }
 
         if(!isset($_SESSION['id']) || !isset($_SESSION['nome'])) {
-            return false;
+            $this->redirect('/?login=erro');
         }
-
-        return true;
     }
 }
