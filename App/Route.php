@@ -56,6 +56,12 @@ class Route extends Bootstrap {
 			'controller' => 'AppController',
 			'action' => 'remover'
 		);
+		
+		$routes['wfollow'] = array(
+			'route' => '/wfollow',
+			'controller' => 'AppController',
+			'action' => 'wfollow'
+		);
 
 		$this->setRoutes($routes);
 	}

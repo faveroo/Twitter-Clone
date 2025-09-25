@@ -51,6 +51,12 @@ class AppController extends Action {
         $this->redirect('/timeline');
     }
 
+    public function wfollow() {
+        $this->validateAuth();
+
+        echo "Estamos aqui";
+    }
+
     public function validateAuth() {
         
         if(session_status() == PHP_SESSION_NONE) {
