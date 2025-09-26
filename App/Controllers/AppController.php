@@ -56,11 +56,11 @@ class AppController extends Action {
 
         $user = Container::getModel('Usuario');
         $user->__set('id', $_SESSION['id']);
+        $username = isset($_GET['username']) ? $_GET['username'] : '';
 
-        if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['username']) && !empty($_GET['username'])) {
-            $user->__set('nome', $_GET['username']);
-            $specificUser = $user->getSpecificUser();
-            $this->view->users = $specificUser ? [$specificUser] : [];
+        if($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($username)) {
+            $user->__set('nome', $username);
+            $this->view->users = $user->getSpecificUser();
         } else {
             $this->view->users = $user->getAllUsers();
         }
