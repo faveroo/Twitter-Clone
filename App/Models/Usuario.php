@@ -56,6 +56,15 @@
             return $this;
         }
 
+        public function getAllUsers() {
+            $query = "SELECT nome, id FROM usuarios WHERE id NOT IN(:id)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':id', $this->__get('id'));
+            $stmt->execute();
+
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
         public function getUserPerEmail() {
             $query = "SELECT nome, email FROM usuarios WHERE email = :email";
             $stmt = $this->db->prepare($query);

@@ -54,7 +54,11 @@ class AppController extends Action {
     public function wfollow() {
         $this->validateAuth();
 
-        echo "Estamos aqui";
+        $user = Container::getModel('Usuario');
+        $user->__set('id', $_SESSION['id']);
+        $this->view->users = $user->getAllUsers();
+        
+        $this->render('quemSeguir');
     }
 
     public function validateAuth() {
