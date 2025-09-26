@@ -57,16 +57,17 @@
         }
 
         public function getSpecificUser() {
-            $query = "SELECT nome, id FROM usuarios WHERE nome LIKE :nome";
+            $query = "SELECT nome, id FROM usuarios WHERE nome LIKE :nome and id NOT IN (:id)";
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':nome', '%'.$this->__get('nome').'%');
+            $stmt->bindValue(':id', $this->__get('id'));
             $stmt->execute();
 
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         }
 
         public function getAllUsers() {
-            $query = "SELECT nome, id FROM usuarios";
+            $query = "SELECT nome, id FROM usuarios WHERE id NOT IN(:id)";
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':id', $this->__get('id'));
             $stmt->execute();

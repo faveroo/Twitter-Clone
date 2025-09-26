@@ -69,6 +69,20 @@ class AppController extends Action {
         $this->render('quemSeguir');
     }
 
+    public function action() {
+        $this->validateAuth();
+        $action = isset($_GET['action']) ? $_GET['action'] : '';
+        $id_user = isset($_GET['id_user']) ? $_GET['id_user'] : '';
+        
+        if($action == 'follow' && !empty($id_user)) {
+
+        } elseif($action == 'unfollow' && !empty($id_user)) {
+
+        } else {
+            $this->redirect('/wfollow');
+        }
+    }
+
     public function validateAuth() {
         
         if(session_status() == PHP_SESSION_NONE) {
