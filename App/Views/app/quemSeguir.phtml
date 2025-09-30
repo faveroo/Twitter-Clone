@@ -83,10 +83,14 @@
 									<?= $user['nome']; ?>
 								</div>
 							
+								
 								<div class="col-md-6 d-flex justify-content-end">
 									<div>
+										<?php if(isset($user['seguindo']) && $user['seguindo'] == 0) : ?>
 										<a href="/action?action=follow&id_user=<?=$user['id']?>" class="btn btn-success">Seguir</a>
+										<?php else: ?>
 										<a href="/action?action=unfollow&id_user=<?=$user['id']?>" class="btn btn-danger">Deixar de seguir</a>
+										<?php endif; ?>
 									</div>
 								</div>
 							</div>

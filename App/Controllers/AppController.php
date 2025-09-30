@@ -73,10 +73,16 @@ class AppController extends Action {
         $this->validateAuth();
         $action = isset($_GET['action']) ? $_GET['action'] : '';
         $id_user = isset($_GET['id_user']) ? $_GET['id_user'] : '';
+        $user =  Container::getModel('Usuario');
+        $user->__set('id', $_SESSION['id']);
         
         if($action == 'follow' && !empty($id_user)) {
+            $user->followUser($id_user);
+            $this->redirect('/wfollow');
 
         } elseif($action == 'unfollow' && !empty($id_user)) {
+            $user->unfollowUser($id_user);
+            $this->redirect('/wfollow');
 
         } else {
             $this->redirect('/wfollow');

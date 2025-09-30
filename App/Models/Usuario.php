@@ -57,7 +57,12 @@
         }
 
         public function getSpecificUser() {
-            $query = "SELECT nome, id FROM usuarios WHERE nome LIKE :nome and id NOT IN (:id)";
+            $query = "SELECT u.nome, u.id, u.email, (
+                                SELECT COUNT(*) 
+                                FROM usuarios_seguidores as us 
+                                WHERE us.id_usuario = :id AND us.id_follower = u.id
+                            ) as seguindo 
+                      FROM usuarios u WHERE nome LIKE :nome and id NOT IN (:id)";
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':nome', '%'.$this->__get('nome').'%');
             $stmt->bindValue(':id', $this->__get('id'));
@@ -67,7 +72,18 @@
         }
 
         public function getAllUsers() {
-            $query = "SELECT nome, id FROM usuarios WHERE id NOT IN(:id)";
+            $query = "SELECT 
+                            u.nome,
+                            u.id,
+                            u.email,
+                            (
+                                SELECT COUNT(*) 
+                                FROM usuarios_seguidores as us 
+                                WHERE us.id_usuario = :id AND us.id_follower = u.id
+                            ) as seguindo 
+                      FROM 
+                            usuarios as u
+                      WHERE id NOT IN(:id)";
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':id', $this->__get('id'));
             $stmt->execute();
@@ -82,5 +98,25 @@
             $stmt->execute();
 
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
+        public function followUser($id_user) {
+            $query = "INSERT INTO usuarios_seguidores(id_usuario, id_follower) VALUES (:id_usuario, :id_follower)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':id_usuario', $this->__get('id'));
+            $stmt->bindValue(':id_follower', $id_user);
+            $stmt->execute();
+
+            return true;
+        }
+
+        public function unfollowUser($id_user) {
+            $query = "DELETE FROM usuarios_seguidores WHERE id_usuario = :id_usuario AND id_follower = :id_follower";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':id_usuario', $this->__get('id'));
+            $stmt->bindValue(':id_follower', $id_user);
+            $stmt->execute();
+
+            return true;
         }
     }
