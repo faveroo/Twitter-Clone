@@ -46,7 +46,13 @@
                 FROM tweets t
                 INNER JOIN usuarios u
                 ON t.id_usuario=u.id
-                WHERE id_usuario = :id_usuario
+                WHERE id_usuario = :id_usuario OR
+                t.id_usuario IN (
+                    SELECT 
+                        us.id_follower
+                    FROM usuarios_seguidores us
+                    WHERE us.id_usuario = :id_usuario
+                )
                 ORDER BY t.data DESC";
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(':id_usuario', $this->__get('id_usuario'));
