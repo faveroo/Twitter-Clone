@@ -119,4 +119,16 @@
 
             return true;
         }
+
+        public function getInfoUser(){
+            $query = "SELECT 
+                            u.nome,
+                            (SELECT COUNT(*) FROM tweets as t WHERE t.id_usuario = u.id) as tweets,
+                            (SELECT COUNT(*) FROM usuarios_seguidores as us WHERE us.id_usuario = u.id)  as seguindo, (SELECT COUNT(*) FROM usuarios_seguidores as us WHERE us.id_follower = u.id) as seguidores FROM usuarios as u WHERE u.id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(':id', $this->__get('id'));
+            $stmt->execute();
+
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
     }

@@ -11,11 +11,25 @@ class AppController extends Action {
 
         $this->validateAuth();
 
+        $user = Container::getModel('Usuario');
+        $user->__set('id', $_SESSION['id']);
+        
         $tweet = Container::getModel('Tweet');
         $tweet->__set('id_usuario', $_SESSION['id']);
+        
+        
+        $total_reg = 10;
+        $pagina = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+        $offset = ($pagina -1) * $total_reg;
 
-        $tweets = $tweet->getAll();
+
+        $tweets = $tweet->getPerPage($total_reg, $offset);
+        $total_tweets = $tweet->getTotalTweets();
+        $this->view->total_paginas = ceil($total_tweets['total'] / $total_reg);
+
         $this->view->tweets = $tweets;
+
+        $this->view->info_user = $user->getInfoUser();
         $this->render('timeline');
     }
 
@@ -57,6 +71,7 @@ class AppController extends Action {
         $user = Container::getModel('Usuario');
         $user->__set('id', $_SESSION['id']);
         $username = isset($_GET['username']) ? $_GET['username'] : '';
+        $this->view->info_user = $user->getInfoUser();
 
         if($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($username)) {
             $user->__set('nome', $username);
